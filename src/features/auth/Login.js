@@ -7,6 +7,7 @@ import { setCredentials } from "./authSlice";
 import { useLoginMutation } from "./authApiSlice";
 
 import usePersist from "../../hooks/usePersist";
+import { PulseLoader } from "react-spinners";
 
 const Login = () => {
   const emailRef = useRef();
@@ -54,14 +55,12 @@ const Login = () => {
   const handleToggle = () => setPersist((prev) => !prev);
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  if (isLoading) return <PulseLoader color="#36d7b7" />;
 
   const content = (
     <section className="col-sm-4">
       <header>
-        <h2>Resident Login</h2>
+        <h2>User Login</h2>
       </header>
       <main>
         <form action="/action_page.php">
