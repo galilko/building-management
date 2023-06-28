@@ -4,7 +4,6 @@ import { IconButton } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { useAddNewUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
-import { ta } from "date-fns/locale";
 
 const AddUser = ({ handleEditMode, handleAddMode }) => {
   const [userData, setUserData] = useState({
