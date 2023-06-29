@@ -5,7 +5,7 @@ import { Padding } from "@mui/icons-material";
 function FooterLayout() {
   const { name, status } = useAuth();
   return (
-    <div class="p-2 bg-dark text-white fixed-bottom">
+    <div class="p-3 bg-dark text-white text-center fixed-bottom">
       <p className="container">
         {name ? (
           <>

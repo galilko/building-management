@@ -9,9 +9,14 @@ import { useSelector } from "react-redux";
 import { selectUserById } from "./usersApiSlice";
 import { useUpdateUserMutation, useDeleteUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
+import { useGetUsersQuery } from "./usersApiSlice";
 
 const User = ({ userId, handleEditMode }) => {
-  const user = useSelector((state) => selectUserById(state, userId));
+  const { user } = useGetUsersQuery("usersList", {
+    selectFromResult: ({ data }) => ({
+      user: data?.entities[userId],
+    }),
+  });
 
   const [updateUser, { isLoading, isSuccess, isError, error }] =
     useUpdateUserMutation();
@@ -83,74 +88,33 @@ const User = ({ userId, handleEditMode }) => {
   const errClass = isError || isDelError ? "errmsg" : "offscreen";
   const errContent = (error?.data?.message || delerror?.data?.message) ?? "";
 
-  const options = Object.values(ROLES).map((role) => {
+  const checkboxRoles = Object.values(ROLES).map((role) => {
     return (
-      <option key={role} value={role}>
-        {" "}
-        {role}
-      </option>
+      <div key={role} className="form-check m-1">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          name="roles"
+          value={role}
+          checked={user.roles.includes(role)}
+          disabled
+        />
+        <label className="form-check-label">{role}</label>
+      </div>
     );
   });
 
   if (user) {
     return (
-      <tr className="table-light">
-        <td>
-          <input
-            className="table_input form-control"
-            type="text"
-            disabled={!isEditable}
-            name="building"
-            value={editedData.building}
-            style={{ width: "50px" }}
-            onChange={handleChange}
-          />
-        </td>
-        <td>
-          <input
-            className="table_input form-control"
-            type="text"
-            disabled={!isEditable}
-            name="appartment"
-            value={editedData.appartment}
-            style={{ width: "50px" }}
-            onChange={handleChange}
-          />
-        </td>
-        <td>
-          <input
-            className="table_input form-control"
-            type="text"
-            disabled={!isEditable}
-            name="name"
-            value={editedData.name}
-            style={{ width: "100px" }}
-            onChange={handleChange}
-          />
-        </td>
-        <td>
-          <input
-            className="table_input form-control"
-            type="email"
-            disabled={!isEditable}
-            name="email"
-            value={editedData.email}
-            style={{ width: "180px" }}
-            onChange={handleChange}
-          />
-        </td>
-        <td>
-          <input
-            className="table_input form-control"
-            type="text"
-            disabled={!isEditable}
-            name="phone"
-            value={editedData.phone}
-            style={{ width: "100px" }}
-            onChange={handleChange}
-          />
-        </td>
-        {isEditable && (
+      <tr className={`${user.active ? "table-success" : "table-danger"}`}>
+        <td>{user.building}</td>
+        <td>{user.appartment}</td>
+        <td>{user.name}</td>
+        <td>{user.email}</td>
+        <td>{user.phone}</td>
+        <td>{user.debt}</td>
+
+        {/*isEditable && (
           <td>
             <input
               className="table_input form-control"
@@ -158,45 +122,13 @@ const User = ({ userId, handleEditMode }) => {
               disabled={!isEditable}
               name="password"
               value={editedData.password}
-              style={{ width: "100px" }}
               onChange={handleChange}
             />
           </td>
-        )}
+        )*/}
+
         <td>
-          <input
-            className="table_input form-control"
-            type="text"
-            disabled={!isEditable}
-            name="debt"
-            value={editedData.debt}
-            style={{ width: "50px" }}
-            onChange={handleChange}
-          />
-        </td>
-        <td style={{ textAlign: "center" }}>
-          <input
-            type="checkbox"
-            name="active"
-            className="form-check-input"
-            disabled={!isEditable}
-            checked={editedData.active}
-            style={{ transform: "scale(1.5)" }}
-            onClick={handleChange}
-          />
-        </td>
-        <td>
-          <select
-            name="roles"
-            className="form-select"
-            value={editedData.roles}
-            disabled={!isEditable}
-            onChange={handleChange}
-            multiple={true}
-            style={{ height: "80px" }}
-          >
-            {options}
-          </select>
+          <div style={{ display: "flex" }}>{checkboxRoles}</div>
         </td>
         {isEditable ? (
           <td style={{ textAlign: "center" }}>

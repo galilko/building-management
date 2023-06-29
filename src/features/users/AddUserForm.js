@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAddNewUserMutation } from "./usersApiSlice";
 import { ROLES } from "../../config/roles";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const AddUserForm = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const AddUserForm = () => {
     debt: "0",
     roles: ["Tenant"],
   });
+
+  const { isAdmin } = useAuth();
 
   const [addNewUser, { isLoading, isSuccess, isError, error }] =
     useAddNewUserMutation();
@@ -54,6 +57,7 @@ const AddUserForm = () => {
   };
 
   const options = Object.values(ROLES).map((role) => {
+    if (!isAdmin && role === "Admin") return null;
     return (
       <option key={role} value={role}>
         {" "}
@@ -183,7 +187,7 @@ const AddUserForm = () => {
 
         <div class="col-12" style={{ textAlign: "center" }}>
           <button
-            class="btn btn-success"
+            class="btn btn-outline-primary"
             aria-label="save"
             onClick={handleAdd}
             style={{ marginTop: "1rem", width: "30%", fontSize: "1.2rem" }}

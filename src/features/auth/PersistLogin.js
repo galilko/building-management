@@ -4,6 +4,7 @@ import { useRefreshMutation } from "./authApiSlice";
 import usePersist from "../../hooks/usePersist";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "./authSlice";
+import { PulseLoader } from "react-spinners";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -46,8 +47,16 @@ const PersistLogin = () => {
     content = <Outlet />;
   } else if (isLoading) {
     //persist: yes, token: no
-    console.log("loading");
-    content = <p>Loading...</p>;
+    content = (
+      <PulseLoader
+        color="#87aebb"
+        cssOverride={{}}
+        loading
+        margin={10}
+        size={40}
+        speedMultiplier={0.7}
+      />
+    );
   } else if (isError) {
     //persist: yes, token: no
     console.log("error");

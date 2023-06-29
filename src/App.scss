@@ -1,0 +1,59 @@
+@import "../node_modules/bootstrap/scss/functions";
+$primary: #009688;
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+.table_input {
+  border: none;
+}
+
+.dash-header-none {
+  display: none;
+}
+
+.errmsg {
+  color: red;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 5px;
+  text-align: left;
+  width: 100%;
+}
+
+.offscreen {
+  display: none;
+}
+
+.accordion {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.bg-red-400 {
+  background-color: $red-300;
+}
+.bg-green-400 {
+  background-color: $green-300;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: $blue-300 !important;
+}
+
+.accordion-button:link,
+.accordion-button:visited,
+.accordion-button:hover,
+.accordion-button:active,
+.accordion-button.active {
+  filter: brightness(0.9);
+
+  border: hidden !important;
+  border-color: #fff !important;
+  box-shadow: 0px !important;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.125);
+}

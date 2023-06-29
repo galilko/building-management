@@ -3,14 +3,14 @@ import { setCredentials } from "../../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://building-management-api.onrender.com",
+  //baseUrl: "http://localhost:3500",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
-    console.log(token);
-    console.log(headers);
+
     return headers;
   },
 });
@@ -48,6 +48,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Resident"],
+  tagTypes: ["User", "Report"],
   endpoints: (builder) => ({}),
 });

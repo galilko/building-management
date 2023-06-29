@@ -1,8 +1,7 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import DashLayout from "./components/DashLayout";
 import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
 import Public from "./components/Public";
 import Login from "./features/auth/Login";
 import UsersList from "./features/users/UsersList";
@@ -11,6 +10,8 @@ import Prefetch from "./features/auth/Prefetch";
 import PersistLogin from "./features/auth/PersistLogin";
 import AddUserForm from "./features/users/AddUserForm";
 import RequireAuth from "./features/auth/RequireAuth";
+import ReportsList from "./features/reports/ReportsList";
+import AddReportForm from "./features/reports/AddReportForm";
 import { ROLES } from "./config/roles";
 
 function App() {
@@ -40,6 +41,10 @@ function App() {
                     <Route path="users">
                       <Route index element={<UsersList />} />
                       <Route path="new" element={<AddUserForm />} />
+                    </Route>
+                    <Route path="reports">
+                      <Route index element={<ReportsList />} />
+                      <Route path="new" element={<AddReportForm />} />
                     </Route>
                   </Route>
                 </Route>

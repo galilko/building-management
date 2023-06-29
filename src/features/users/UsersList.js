@@ -7,10 +7,10 @@ import AddIcon from "@mui/icons-material/Add";
 import AddUser from "./AddUser";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { PulseLoader } from "react-spinners";
 
 function UsersList() {
   const [isEditable, setIsEditable] = useState(false);
-  const [isAddClicked, setIsAddClicked] = useState(false);
   const navigate = useNavigate();
   const { isAdmin, isManager, building, email } = useAuth();
 
@@ -26,7 +26,7 @@ function UsersList() {
     isSuccess,
     isError,
     error,
-  } = useGetUsersQuery(undefined, {
+  } = useGetUsersQuery("usersList", {
     pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
@@ -34,8 +34,17 @@ function UsersList() {
 
   let content;
 
-  if (isLoading) content = <p>Loading...</p>;
-
+  if (isLoading)
+    return (
+      <PulseLoader
+        color="#87aebb"
+        cssOverride={{}}
+        loading
+        margin={10}
+        size={40}
+        speedMultiplier={0.7}
+      />
+    );
   if (isError) {
     content = <p className="errmsg">{error?.data?.message}</p>;
   }
@@ -57,62 +66,43 @@ function UsersList() {
 
     content = (
       <div className="container mt-3">
-        <style>
-          {`
-  tr {
-    vertical-align: middle;
-  }
-  `}
-        </style>
-        {!isAddClicked && (
-          <p scope="col">
-            <button
-              className="btn btn-primary"
-              aria-label="save"
-              onClick={handleAdd}
-            >
-              Add New User{" "}
-            </button>
-          </p>
-        )}
-        <table
-          className="table table-hover"
-          style={{ verticalAlign: "middle" }}
-        >
-          <thead>
-            <tr className="table-dark">
-              <th scope="col">Building</th>
-              <th scope="col">Appartment</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone Number</th>
-              {(isEditable || isAddClicked) && <th scope="col">Password</th>}
-              <th scope="col">Debt</th>
-              <th style={{ textAlign: "center" }} scope="col">
-                Active
-              </th>
-              <th style={{ textAlign: "center" }} scope="col">
-                Roles
-              </th>
-              <th
-                style={{ textAlign: "center", verticalAlign: "center" }}
-                scope="col"
-              >
-                Operations
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {isAddClicked ? (
-              <AddUser
-                handleEditMode={setIsEditable}
-                handleAddMode={setIsAddClicked}
-              />
-            ) : (
-              tableContent
-            )}
-          </tbody>
-        </table>
+        <p scope="col">
+          <button
+            className="btn btn-primary"
+            aria-label="save"
+            onClick={handleAdd}
+          >
+            Add New User{" "}
+          </button>
+        </p>
+        <div className="table-responsive-sm">
+          <table
+            className="table table-hover table-bordered"
+            style={{ verticalAlign: "middle" }}
+          >
+            <thead>
+              <tr className="table-dark" style={{ verticalAlign: "middle" }}>
+                <th scope="col">Building</th>
+                <th scope="col">Appartment</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                {isEditable && <th scope="col">Password</th>}
+                <th scope="col">Debt</th>
+                <th style={{ textAlign: "center" }} scope="col">
+                  Roles
+                </th>
+                <th
+                  style={{ textAlign: "center", verticalAlign: "center" }}
+                  scope="col"
+                >
+                  Operations
+                </th>
+              </tr>
+            </thead>
+            <tbody>{tableContent}</tbody>
+          </table>
+        </div>
       </div>
     );
   }

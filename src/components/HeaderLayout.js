@@ -5,9 +5,13 @@ import useAuth from "../hooks/useAuth";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
 import { IconButton } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { PulseLoader } from "react-spinners";
+
 const DASH_REGEX = /^\/dash(\/)*/;
-const USER_REGEX = /^\/dash\/users(\/)?$/;
-const REQUEST_REGEX = /^\/dash\/requests(\/)?$/;
+const USER_REGEX = /^\/dash\/users(\/)*$/;
+const REPORT_REGEX = /^\/dash\/reports(\/)?$/;
+const ADD_USER_REGEX = /^\/dash\/users\/new(\/)?$/;
+const ADD_REPORT_REGEX = /^\/dash\/reports\/new(\/)?$/;
 
 function HeaderLayout() {
   const { isAdmin, isManager } = useAuth();
@@ -24,14 +28,125 @@ function HeaderLayout() {
     sendLogout();
   };
 
+  if (isLoading) return <PulseLoader color="#36d7b7" />;
+
   const dashNavVisibility = !DASH_REGEX.test(pathname)
     ? "dash-header-none"
     : "";
 
   const userClass = USER_REGEX.test(pathname) ? "active" : "";
-  const requestClass = REQUEST_REGEX.test(pathname) ? "active" : "";
-  const addUserClass = pathname === "/dash/users/new" ? "active" : "";
+  const reportClass = REPORT_REGEX.test(pathname) ? "active" : "";
+  const addUserClass = ADD_USER_REGEX.test(pathname) ? "active" : "";
+  const addReportClass = ADD_REPORT_REGEX.test(pathname) ? "active" : "";
+
   const dashClass = pathname === "/dash" ? "active" : "";
+  return (
+    <>
+      <div className="container-fluid p-4 bg-primary text-white text-center">
+        <h2>Neighbors Management App</h2>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+        <div class="container-fluid">
+          <Link className={`navbar-brand ${dashClass}`} to="/dash">
+            Home
+          </Link>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDarkDropdown"
+            aria-controls="navbarNavDarkDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Users
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li>
+                    <Link
+                      className={`dropdown-item nav-link ${userClass}`}
+                      to="/dash/users"
+                    >
+                      Users
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className={`dropdown-item nav-link ${addUserClass}`}
+                      to="/dash/users/new"
+                    >
+                      Add User
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Reports
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li>
+                    <Link
+                      className={`dropdown-item nav-link ${reportClass}`}
+                      to="/dash/reports"
+                    >
+                      Reports
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className={`dropdown-item nav-link ${addReportClass}`}
+                      to="/dash/reports/new"
+                    >
+                      Add Report
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <div className="d-flex ms-auto">
+              {isLoading ? (
+                <PulseLoader
+                  color="#87aebb"
+                  cssOverride={{}}
+                  loading
+                  margin={10}
+                  size={40}
+                  speedMultiplier={0.7}
+                />
+              ) : (
+                <IconButton aria-label="logout" onClick={handleLogout}>
+                  <LogoutIcon style={{ color: "white", fontSize: "30px" }} />
+                </IconButton>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </>
+  );
+}
+/*
   return (
     <>
       <div className="container-fluid p-2 bg-primary text-white text-center">
@@ -39,7 +154,7 @@ function HeaderLayout() {
       </div>
       <nav
         className={`navbar navbar-expand-sm bg-dark navbar-dark sticky-top ${dashNavVisibility}`}
-      >
+        >
         <div className="container-fluid">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -47,22 +162,24 @@ function HeaderLayout() {
                 Home
               </Link>
             </li>
-            {(isAdmin || isManager) && (
-              <>
-                <li className="nav-item">
-                  <Link
-                    className={`nav-link ${requestClass}`}
-                    to="/dash/requests"
-                  >
-                    Requests
-                  </Link>
-                </li>
-                <li className="nav-item">
+
+            <li class="nav-item dropdown">
+              <a
+                className={`nav-link dropdown-toggle ${userClass}`}
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Users
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li className="dropdown-item">
                   <Link className={`nav-link ${userClass}`} to="/dash/users">
                     Users
                   </Link>
                 </li>
-                <li className="nav-item">
+                <li className="dropdown-item">
                   <Link
                     className={`nav-link ${addUserClass}`}
                     to="/dash/users/new"
@@ -70,17 +187,63 @@ function HeaderLayout() {
                     Add User
                   </Link>
                 </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                className={`nav-link dropdown-toggle ${reportClass}`}
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Reports
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li className="dropdown-item">
+                  <Link
+                    className={`nav-link ${reportClass}`}
+                    to="/dash/reports"
+                  >
+                    Reports
+                  </Link>
+                </li>
+                <li className="dropdown-item">
+                  <Link
+                    className={`nav-link ${addReportClass}`}
+                    to="/dash/reports/new"
+                  >
+                    Add Report
+                  </Link>
+                </li>
+              </ul>
+            </li>
+
+            {(isAdmin || isManager) && (
+              <>
+                <li className="nav-item"></li>
               </>
             )}
-            <li className="nav-item"></li>
           </ul>
-          <IconButton aria-label="logout" onClick={handleLogout}>
-            <LogoutIcon style={{ color: "white", fontSize: "30px" }} />
-          </IconButton>
+          {isLoading ? (
+            <PulseLoader
+              color="#87aebb"
+              cssOverride={{}}
+              loading
+              margin={10}
+              size={40}
+              speedMultiplier={0.7}
+            />
+          ) : (
+            <IconButton aria-label="logout" onClick={handleLogout}>
+              <LogoutIcon style={{ color: "white", fontSize: "30px" }} />
+            </IconButton>
+          )}
         </div>
       </nav>
     </>
   );
 }
-
+*/
 export default HeaderLayout;

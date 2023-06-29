@@ -55,7 +55,17 @@ const Login = () => {
   const handleToggle = () => setPersist((prev) => !prev);
   const errClass = errMsg ? "errmsg" : "offscreen";
 
-  if (isLoading) return <PulseLoader color="#36d7b7" />;
+  if (isLoading)
+    return (
+      <PulseLoader
+        color="#87aebb"
+        cssOverride={{}}
+        loading
+        margin={10}
+        size={40}
+        speedMultiplier={0.7}
+      />
+    );
 
   const content = (
     <section className="col-sm-4">
