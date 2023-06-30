@@ -9,9 +9,11 @@ const Public = () => {
         can use the navigation bar above to access different sections of the
         application.
       </p>
-      <Link to="/login" className="btn btn-primary">
-        Login
-      </Link>
+      <div class="d-grid col-3 mx-auto mt-5">
+        <Link to="/login" className="btn btn-outline-primary btn-lg ">
+          Login
+        </Link>
+      </div>
     </div>
   );
   return content;

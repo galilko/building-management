@@ -37,8 +37,7 @@ function UsersList() {
   if (isLoading)
     return (
       <PulseLoader
-        color="#87aebb"
-        cssOverride={{}}
+        color="var(--bs-primary)"
         loading
         margin={10}
         size={40}
@@ -68,7 +67,7 @@ function UsersList() {
       <div className="container mt-3">
         <p scope="col">
           <button
-            className="btn btn-primary"
+            className="btn btn-outline-primary"
             aria-label="save"
             onClick={handleAdd}
           >
@@ -76,10 +75,7 @@ function UsersList() {
           </button>
         </p>
         <div className="table-responsive-sm">
-          <table
-            className="table table-hover table-bordered"
-            style={{ verticalAlign: "middle" }}
-          >
+          <table className="table table-hover table-bordered text-center align-middle">
             <thead>
               <tr className="table-dark" style={{ verticalAlign: "middle" }}>
                 <th scope="col">Building</th>
@@ -96,7 +92,7 @@ function UsersList() {
                   style={{ textAlign: "center", verticalAlign: "center" }}
                   scope="col"
                 >
-                  Operations
+                  Edit
                 </th>
               </tr>
             </thead>

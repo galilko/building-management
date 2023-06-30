@@ -8,12 +8,13 @@ const useAuth = () => {
   const token = useSelector(selectCurrentToken);
   let isManager = false;
   let isAdmin = false;
-  let status = "Tenant";
+  let status = "";
 
   if (token) {
     const decoded = jwtDecode(token);
     const { id, email, roles, name, debt, building } = decoded.UserInfo;
 
+    status = "Tenant";
     isManager = roles.includes("Manager");
     isAdmin = roles.includes("Admin");
 

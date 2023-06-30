@@ -1,9 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials } from "../../features/auth/authSlice";
 
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://building-management-api.onrender.com"
+    : "http://localhost:3500";
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://building-management-api.onrender.com",
-  //baseUrl: "http://localhost:3500",
+  baseUrl,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;

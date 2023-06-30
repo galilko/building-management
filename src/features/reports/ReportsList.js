@@ -36,8 +36,7 @@ function ReportsList() {
   if (isLoading)
     return (
       <PulseLoader
-        color="#87aebb"
-        cssOverride={{}}
+        color="var(--bs-primary)"
         loading
         margin={10}
         size={40}

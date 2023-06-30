@@ -7,7 +7,7 @@ import useAuth from "../../hooks/useAuth";
 
 const AddReportForm = () => {
   const navigate = useNavigate();
-  const { id } = useAuth();
+  const { id, status } = useAuth();
   const [reportData, setReportData] = useState({
     user: id,
     title: "",
@@ -24,7 +24,7 @@ const AddReportForm = () => {
       title: reportData.title,
       text: reportData.text,
     });
-    navigate("/dash/reports");
+    status === "Tenant" ? navigate("/dash") : navigate("/dash/reports");
   };
 
   const handleChange = (event) => {
@@ -75,8 +75,8 @@ const AddReportForm = () => {
             onChange={handleChange}
           ></textarea>
         </div>
-        <div className="mt-4" style={{ textAlign: "center" }}>
-          <button type="submit" className="btn btn-primary">
+        <div className="mt-5 text-center align-middle">
+          <button type="submit" className="btn btn-lg btn-outline-primary">
             Submit
           </button>
         </div>

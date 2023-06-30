@@ -58,8 +58,7 @@ const Login = () => {
   if (isLoading)
     return (
       <PulseLoader
-        color="#87aebb"
-        cssOverride={{}}
+        color="var(--bs-primary)"
         loading
         margin={10}
         size={40}
@@ -118,20 +117,18 @@ const Login = () => {
               Remember me
             </label>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <button type="submit" class="btn btn-primary" onClick={handleLogin}>
+          <div class="d-grid col-3 mx-auto">
+            <button
+              type="submit"
+              class="btn btn-outline-primary"
+              onClick={handleLogin}
+            >
               Login
             </button>
           </div>
         </form>
       </main>
-      <footer>
+      <footer className="mt-2">
         <Link to="/">Back to home</Link>
       </footer>
     </section>

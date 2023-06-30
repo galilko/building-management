@@ -49,8 +49,7 @@ const PersistLogin = () => {
     //persist: yes, token: no
     content = (
       <PulseLoader
-        color="#87aebb"
-        cssOverride={{}}
+        color="var(--bs-primary)"
         loading
         margin={10}
         size={40}

@@ -141,9 +141,9 @@ const User = ({ userId, handleEditMode }) => {
             <IconButton aria-label="edit" onClick={handleEdit}>
               <EditIcon style={{ color: "grey" }} />
             </IconButton>
-            <IconButton aria-label="delete" onClick={handleDelete}>
+            {/*<IconButton aria-label="delete" onClick={handleDelete}>
               <DeleteIcon style={{ color: "red" }} />
-            </IconButton>
+        </IconButton>*/}
           </td>
         )}
         <p className={errClass}>{errContent}</p>
