@@ -150,21 +150,23 @@ function HeaderLayout() {
               : status === "Tenant"
               ? tenantContent
               : ""}
-            <div className="d-flex ms-auto">
-              {isLoading ? (
-                <PulseLoader
-                  color="var(--bs-primary)"
-                  loading
-                  margin={10}
-                  size={40}
-                  speedMultiplier={0.7}
-                />
-              ) : (
-                <IconButton aria-label="logout" onClick={handleLogout}>
-                  <LogoutIcon style={{ color: "white", fontSize: "30px" }} />
-                </IconButton>
-              )}
-            </div>
+            {status !== "" && (
+              <div className="d-flex ms-auto">
+                {isLoading ? (
+                  <PulseLoader
+                    color="var(--bs-primary)"
+                    loading
+                    margin={10}
+                    size={40}
+                    speedMultiplier={0.7}
+                  />
+                ) : (
+                  <IconButton aria-label="logout" onClick={handleLogout}>
+                    <LogoutIcon style={{ color: "white", fontSize: "30px" }} />
+                  </IconButton>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
